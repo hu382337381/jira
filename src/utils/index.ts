@@ -4,7 +4,7 @@ import { useCallback, useEffect, useState } from "react";
  * @Author       : 胡昊
  * @Date         : 2021-08-11 14:44:32
  * @LastEditors  : 胡昊
- * @LastEditTime : 2021-08-12 15:31:43
+ * @LastEditTime : 2021-08-12 15:45:08
  * @FilePath     : /jira/src/utils/index.ts
  * @Description  :
  */
@@ -27,7 +27,7 @@ export const useMount = (callback: () => void) => {
   }, []);
 };
 
-export const useDebounce = (value: unknown, delay: number): any => {
+export const useDebounce = <V>(value: V, delay: number) => {
   const [debounceVal, setDebounceVal] = useState(value);
 
   useEffect(() => {
