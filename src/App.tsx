@@ -2,7 +2,7 @@
  * @Author       : 胡昊
  * @Date         : 2021-08-04 14:26:59
  * @LastEditors  : 胡昊
- * @LastEditTime : 2021-08-11 14:22:53
+ * @LastEditTime : 2021-08-12 16:27:53
  * @FilePath     : /jira/src/App.tsx
  * @Description  :
  */
@@ -10,6 +10,7 @@ import React from "react";
 import logo from "./logo.svg";
 import "./App.css";
 import ProjectListScreen from "screens/project-list";
+import Login from "screens/login";
 
 function App() {
   return (
@@ -27,7 +28,8 @@ function App() {
         >
           Learn React
         </a> */}
-      <ProjectListScreen />
+      <Login />
+      {/* <ProjectListScreen /> */}
       {/* </header> */}
     </div>
   );
