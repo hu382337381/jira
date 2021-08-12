@@ -4,7 +4,7 @@ import { useCallback, useEffect, useState } from "react";
  * @Author       : 胡昊
  * @Date         : 2021-08-11 14:44:32
  * @LastEditors  : 胡昊
- * @LastEditTime : 2021-08-12 15:45:08
+ * @LastEditTime : 2021-08-12 16:08:03
  * @FilePath     : /jira/src/utils/index.ts
  * @Description  :
  */
@@ -38,4 +38,19 @@ export const useDebounce = <V>(value: V, delay: number) => {
   }, [delay, value]);
 
   return debounceVal;
+};
+
+export const useArray = <T>(param: T[]) => {
+  const [value, setValue] = useState(param);
+
+  const add = (item: T) => {
+    setValue([...value, item]);
+  };
+  const removeIdex = (index: number) => {
+    const a = [...value];
+    a.splice(index, 1);
+    setValue([...a]);
+  };
+  const clear = () => setValue([]);
+  return { value, setValue, add, removeIdex, clear };
 };
