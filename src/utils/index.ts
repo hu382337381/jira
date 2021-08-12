@@ -1,8 +1,10 @@
+import { useCallback, useEffect, useState } from "react";
+
 /*
  * @Author       : 胡昊
  * @Date         : 2021-08-11 14:44:32
  * @LastEditors  : 胡昊
- * @LastEditTime : 2021-08-11 15:04:23
+ * @LastEditTime : 2021-08-12 14:28:21
  * @FilePath     : /jira/src/utils/index.ts
  * @Description  :
  */
@@ -16,4 +18,24 @@ export const cleanObject = (object: { [key: string]: any }) => {
     }
   });
   return result;
+};
+
+export const useMount = (callback: () => void) => {
+  useEffect(() => {
+    callback();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+};
+
+export const useDebounce = (value: any, delay: number) => {
+  const [debounceVal, setDebounceVal] = useState(value);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setDebounceVal(value);
+    }, delay);
+    return () => clearInterval(timer);
+  }, [delay, value]);
+
+  return debounceVal;
 };
