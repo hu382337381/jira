@@ -2,7 +2,7 @@
  * @Author       : 胡昊
  * @Date         : 2021-08-04 14:26:59
  * @LastEditors  : 胡昊
- * @LastEditTime : 2021-08-13 15:38:29
+ * @LastEditTime : 2021-08-13 16:52:59
  * @FilePath     : /jira/src/App.tsx
  * @Description  :
  */
@@ -10,7 +10,6 @@ import React from "react";
 import logo from "./logo.svg";
 import "./App.css";
 import ProjectListScreen from "screens/project-list";
-import Login from "screens/login";
 import UnauthenticatedApp from "unauthenticated-app";
 import { useAuth } from "context/auth-context";
 import AuthenticatedApp from "authenticated-app";
