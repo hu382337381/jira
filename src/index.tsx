@@ -2,7 +2,7 @@
  * @Author       : 胡昊
  * @Date         : 2021-08-04 14:26:59
  * @LastEditors  : 胡昊
- * @LastEditTime : 2021-08-13 14:49:00
+ * @LastEditTime : 2021-08-13 17:58:55
  * @FilePath     : /jira/src/index.tsx
  * @Description  :
  */
@@ -12,6 +12,7 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { loadDevTools } from "jira-dev-tool";
+import "antd/dist/antd.less";
 import AppProviders from "context";
 
 loadDevTools(() => {

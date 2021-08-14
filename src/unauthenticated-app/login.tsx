@@ -2,39 +2,39 @@
  * @Author       : 胡昊
  * @Date         : 2021-08-13 14:37:12
  * @LastEditors  : 胡昊
- * @LastEditTime : 2021-08-13 14:37:41
+ * @LastEditTime : 2021-08-14 10:03:53
  * @FilePath     : /jira/src/unauthenticated-app/login.tsx
  * @Description  :
  */
 
+import { Button, Form, Input } from "antd";
 import { useAuth } from "context/auth-context";
-import { FormEvent } from "react";
 
 const LoginScreen = () => {
   const { login } = useAuth();
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const username = (event.currentTarget.elements[0] as HTMLInputElement)
-      .value;
-    const password = (event.currentTarget.elements[1] as HTMLInputElement)
-      .value;
-
-    login({ username, password });
+  const handleSubmit = (values: { username: string; password: string }) => {
+    login(values);
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label htmlFor="username">用户名</label>
-        <input type="text" id="username" />
-      </div>
-      <div>
-        <label htmlFor="password">密码</label>
-        <input type="password" id="password" />
-      </div>
-      <button type="submit">登录</button>
-    </form>
+    <Form
+      onFinish={handleSubmit}
+      // labelCol={{ span: 4 }}
+      // wrapperCol={{ span: 4 }}
+    >
+      <Form.Item name="username" label="用户名">
+        <Input placeholder="用户名" />
+      </Form.Item>
+      <Form.Item name="password" label="密码">
+        <Input placeholder="密码" type="password" />
+      </Form.Item>
+      <Form.Item>
+        <Button type="primary" htmlType="submit">
+          登录
+        </Button>
+      </Form.Item>
+    </Form>
   );
 };
 
