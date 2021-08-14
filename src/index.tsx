@@ -2,13 +2,13 @@
  * @Author       : 胡昊
  * @Date         : 2021-08-04 14:26:59
  * @LastEditors  : 胡昊
- * @LastEditTime : 2021-08-13 17:58:55
+ * @LastEditTime : 2021-08-14 11:18:06
  * @FilePath     : /jira/src/index.tsx
  * @Description  :
  */
 import React from "react";
 import ReactDOM from "react-dom";
-import "./index.css";
+// import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { loadDevTools } from "jira-dev-tool";

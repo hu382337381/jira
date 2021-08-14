@@ -2,13 +2,14 @@
  * @Author       : 胡昊
  * @Date         : 2021-08-13 14:33:29
  * @LastEditors  : 胡昊
- * @LastEditTime : 2021-08-14 09:56:33
+ * @LastEditTime : 2021-08-14 15:39:32
  * @FilePath     : /jira/src/unauthenticated-app/register.tsx
  * @Description  :
  */
 
-import { Button, Form, Input } from "antd";
+import { Form, Input } from "antd";
 import { useAuth } from "context/auth-context";
+import { LongButton } from "unauthenticated-app";
 
 const RegisterScreen = () => {
   const { register } = useAuth();
@@ -19,16 +20,22 @@ const RegisterScreen = () => {
 
   return (
     <Form onFinish={handleSubmit}>
-      <Form.Item name="username" label="用户名">
+      <Form.Item
+        name="username"
+        rules={[{ required: true, message: "请输入用户名" }]}
+      >
         <Input type="text" placeholder="用户名" />
       </Form.Item>
-      <Form.Item name="password" label="密码">
+      <Form.Item
+        name="password"
+        rules={[{ required: true, message: "请输入密码" }]}
+      >
         <Input type="password" placeholder="密码" />
       </Form.Item>
       <Form.Item>
-        <Button type="primary" htmlType="submit">
+        <LongButton type="primary" htmlType="submit">
           注册
-        </Button>
+        </LongButton>
       </Form.Item>
     </Form>
   );

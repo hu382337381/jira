@@ -2,10 +2,11 @@
  * @Author       : 胡昊
  * @Date         : 2021-08-09 09:13:30
  * @LastEditors  : 胡昊
- * @LastEditTime : 2021-08-12 15:31:23
+ * @LastEditTime : 2021-08-14 10:29:29
  * @FilePath     : /jira/src/screens/project-list/search-panel.tsx
  * @Description  :
  */
+import { Form, Input, Select } from "antd";
 export interface User {
   id: string;
   name: string;
@@ -26,8 +27,8 @@ interface SearchPanelProps {
 
 const SearchPanel = ({ users, param, setParam }: SearchPanelProps) => {
   return (
-    <form>
-      <input
+    <Form>
+      <Input
         value={param.name}
         onChange={(evt) =>
           setParam({
@@ -36,23 +37,23 @@ const SearchPanel = ({ users, param, setParam }: SearchPanelProps) => {
           })
         }
       />
-      <select
+      <Select
         value={param.personId}
-        onChange={(evt) =>
+        onChange={(value) =>
           setParam({
             ...param,
-            personId: evt.target.value,
+            personId: value,
           })
         }
       >
-        <option value="">负责人</option>
+        <Select.Option value="">负责人</Select.Option>
         {users.map((item) => (
-          <option key={item.id} value={item.id}>
+          <Select.Option key={item.id} value={item.id}>
             {item.name}
-          </option>
+          </Select.Option>
         ))}
-      </select>
-    </form>
+      </Select>
+    </Form>
   );
 };
 

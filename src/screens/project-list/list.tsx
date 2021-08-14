@@ -2,10 +2,11 @@
  * @Author       : 胡昊
  * @Date         : 2021-08-09 09:10:54
  * @LastEditors  : 胡昊
- * @LastEditTime : 2021-08-12 15:30:40
+ * @LastEditTime : 2021-08-14 11:05:02
  * @FilePath     : /jira/src/screens/project-list/list.tsx
  * @Description  :
  */
+import { Table } from "antd";
 import { User } from "./search-panel";
 
 interface Project {
@@ -24,25 +25,24 @@ interface ListProps {
 
 const List = ({ users, list }: ListProps) => {
   return (
-    <table>
-      <thead>
-        <tr>
-          <th>名称</th>
-          <th>负责人</th>
-        </tr>
-      </thead>
-      <tbody>
-        {list.map((project) => (
-          <tr key={project.id}>
-            <td>{project.name}</td>
-            <td>
-              {users.find((item) => item.id === project.personId)?.name ??
-                "未知"}
-            </td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
+    <Table
+      pagination={false}
+      columns={[
+        { title: "名称", dataIndex: "name" },
+        {
+          title: "负责人",
+          render(value, project) {
+            return (
+              <span>
+                {users.find((item) => item.id === project.personId)?.name ??
+                  "未知"}
+              </span>
+            );
+          },
+        },
+      ]}
+      dataSource={list}
+    />
   );
 };
 export default List;
