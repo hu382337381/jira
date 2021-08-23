@@ -2,10 +2,12 @@
  * @Author       : 胡昊
  * @Date         : 2021-08-06 18:07:14
  * @LastEditors  : 胡昊
- * @LastEditTime : 2021-08-23 10:51:32
+ * @LastEditTime : 2021-08-23 11:56:02
  * @FilePath     : /jira/src/screens/project-list/index.tsx
  * @Description  :
  */
+import styled from "@emotion/styled";
+import { Row } from "components/lib";
 import { useCallback, useEffect, useState } from "react";
 import { cleanObject, useDebounce } from "utils";
 import { useHttp } from "utils/http";
@@ -35,11 +37,18 @@ const ProjectListScreen = () => {
   }, [init]);
 
   return (
-    <div>
+    <Container>
+      <Row marginBottom={2}>
+        <h1>项目列表</h1>
+      </Row>
       <SearchPanel users={users} param={param} setParam={setParam} />
       <List users={users} list={list} />
-    </div>
+    </Container>
   );
 };
+
+const Container = styled.div`
+  padding: 3.2rem;
+`;
 
 export default ProjectListScreen;
