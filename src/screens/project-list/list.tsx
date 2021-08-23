@@ -2,7 +2,7 @@
  * @Author       : 胡昊
  * @Date         : 2021-08-09 09:10:54
  * @LastEditors  : 胡昊
- * @LastEditTime : 2021-08-14 11:05:02
+ * @LastEditTime : 2021-08-20 18:24:46
  * @FilePath     : /jira/src/screens/project-list/list.tsx
  * @Description  :
  */
@@ -27,6 +27,7 @@ const List = ({ users, list }: ListProps) => {
   return (
     <Table
       pagination={false}
+      rowKey="id"
       columns={[
         { title: "名称", dataIndex: "name" },
         {

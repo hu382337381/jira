@@ -2,15 +2,20 @@
  * @Author       : 胡昊
  * @Date         : 2021-08-12 17:54:02
  * @LastEditors  : 胡昊
- * @LastEditTime : 2021-08-13 16:49:26
+ * @LastEditTime : 2021-08-23 10:03:03
  * @FilePath     : /jira/src/context/auth-context.tsx
  * @Description  :
  */
-import { createContext, ReactNode, useContext, useState } from "react";
 import * as auth from "auth-provider";
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { User } from "screens/project-list/search-panel";
 import { http } from "utils/http";
-import { useMount } from "utils";
 
 interface AuthForm {
   username: string;
@@ -45,9 +50,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const register = (form: AuthForm) => auth.register(form).then(setUser);
   const logout = () => auth.logout().then(() => setUser(null));
 
-  useMount(() => {
+  useEffect(() => {
     bootstrapUser().then(setUser);
-  });
+  }, []);
 
   return (
     <AuthContext.Provider

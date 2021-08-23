@@ -1,10 +1,10 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 /*
  * @Author       : 胡昊
  * @Date         : 2021-08-11 14:44:32
  * @LastEditors  : 胡昊
- * @LastEditTime : 2021-08-12 16:08:03
+ * @LastEditTime : 2021-08-23 09:57:06
  * @FilePath     : /jira/src/utils/index.ts
  * @Description  :
  */
@@ -23,8 +23,7 @@ export const cleanObject = (object: { [key: string]: any }) => {
 export const useMount = (callback: () => void) => {
   useEffect(() => {
     callback();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [callback]);
 };
 
 export const useDebounce = <V>(value: V, delay: number) => {
