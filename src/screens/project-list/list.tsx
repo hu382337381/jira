@@ -2,15 +2,15 @@
  * @Author       : 胡昊
  * @Date         : 2021-08-09 09:10:54
  * @LastEditors  : 胡昊
- * @LastEditTime : 2021-08-23 14:17:22
+ * @LastEditTime : 2021-08-23 16:59:50
  * @FilePath     : /jira/src/screens/project-list/list.tsx
  * @Description  :
  */
-import { Table } from "antd";
+import { Table, TableProps } from "antd";
 import { User } from "./search-panel";
 import dayjs from "dayjs";
 
-interface Project {
+export interface Project {
   id: number;
   name: string;
   personId: string;
@@ -19,12 +19,11 @@ interface Project {
   created: number;
 }
 
-interface ListProps {
+interface ListProps extends TableProps<Project> {
   users: User[];
-  list: Project[];
 }
 
-const List = ({ users, list }: ListProps) => {
+const List = ({ users, ...props }: ListProps) => {
   return (
     <Table
       pagination={false}
@@ -56,7 +55,7 @@ const List = ({ users, list }: ListProps) => {
           },
         },
       ]}
-      dataSource={list}
+      {...props}
     />
   );
 };
