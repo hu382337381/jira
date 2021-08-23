@@ -2,7 +2,7 @@
  * @Author       : 胡昊
  * @Date         : 2021-08-23 16:00:17
  * @LastEditors  : 胡昊
- * @LastEditTime : 2021-08-23 16:43:56
+ * @LastEditTime : 2021-08-23 17:30:48
  * @FilePath     : /jira/src/utils/use-async.ts
  * @Description  :
  */
@@ -20,7 +20,16 @@ const defaultInitState: State<null> = {
   status: "idle",
 };
 
-export const useAsync = <D>(initState?: State<D>) => {
+const defaultConfig = {
+  throwOnError: false,
+};
+
+export const useAsync = <D>(
+  initState?: State<D>,
+  initConfig?: typeof defaultConfig
+) => {
+  const config = { ...defaultConfig, ...initConfig };
+
   const [state, setState] = useState({
     ...defaultInitState,
     ...initState,
@@ -54,7 +63,9 @@ export const useAsync = <D>(initState?: State<D>) => {
         return data;
       })
       .catch((error) => {
+        //catch 会消化异常，如果不主动抛出，外面试接收不到异常的
         setError(error);
+        if (config.throwOnError) return Promise.reject(error);
         return error;
       });
   };

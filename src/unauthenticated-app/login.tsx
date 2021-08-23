@@ -2,7 +2,7 @@
  * @Author       : 胡昊
  * @Date         : 2021-08-13 14:37:12
  * @LastEditors  : 胡昊
- * @LastEditTime : 2021-08-14 15:39:21
+ * @LastEditTime : 2021-08-23 18:18:55
  * @FilePath     : /jira/src/unauthenticated-app/login.tsx
  * @Description  :
  */
@@ -10,12 +10,25 @@
 import { Form, Input } from "antd";
 import { useAuth } from "context/auth-context";
 import { LongButton } from "unauthenticated-app";
+import { useAsync } from "utils/use-async";
 
-const LoginScreen = () => {
+const LoginScreen = ({ onError }: { onError: (error: Error) => void }) => {
   const { login } = useAuth();
 
-  const handleSubmit = (values: { username: string; password: string }) => {
-    login(values);
+  const { run, isLoading, error } = useAsync(undefined, {
+    throwOnError: false,
+  });
+
+  const handleSubmit = async (values: {
+    username: string;
+    password: string;
+  }) => {
+    try {
+      await run(login(values));
+      console.log("我会错误", error);
+    } catch (e) {
+      onError(e);
+    }
   };
 
   return (
@@ -33,7 +46,7 @@ const LoginScreen = () => {
         <Input placeholder="密码" type="password" />
       </Form.Item>
       <Form.Item>
-        <LongButton type="primary" htmlType="submit">
+        <LongButton loading={isLoading} type="primary" htmlType="submit">
           登录
         </LongButton>
       </Form.Item>

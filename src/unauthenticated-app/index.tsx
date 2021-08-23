@@ -1,4 +1,4 @@
-import { Button, Card } from "antd";
+import { Button, Card, Typography } from "antd";
 import { useState } from "react";
 import LoginScreen from "./login";
 import RegisterScreen from "./register";
@@ -11,19 +11,28 @@ import logo from "assets/logo.svg";
  * @Author       : 胡昊
  * @Date         : 2021-08-13 14:33:06
  * @LastEditors  : 胡昊
- * @LastEditTime : 2021-08-14 15:42:16
+ * @LastEditTime : 2021-08-23 17:43:41
  * @FilePath     : /jira/src/unauthenticated-app/index.tsx
  * @Description  :
  */
 const UnauthenticatedApp = () => {
   const [isRegister, setIsRegister] = useState(false);
+  const [error, setError] = useState<Error | null>(null);
+
   return (
     <Container>
       <Header />
       <Background />
       <ShadowCard>
         <Title>{isRegister ? "请注册" : "请登录"}</Title>
-        {isRegister ? <RegisterScreen /> : <LoginScreen />}
+        {error ? (
+          <Typography.Text type="danger">{error?.message}</Typography.Text>
+        ) : null}
+        {isRegister ? (
+          <RegisterScreen onError={setError} />
+        ) : (
+          <LoginScreen onError={setError} />
+        )}
         <Button type="link" onClick={() => setIsRegister(!isRegister)}>
           {isRegister ? "已有账号？请登录" : "没有账号？请注册"}
         </Button>
