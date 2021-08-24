@@ -2,7 +2,7 @@
  * @Author       : 胡昊
  * @Date         : 2021-08-13 14:37:12
  * @LastEditors  : 胡昊
- * @LastEditTime : 2021-08-23 18:18:55
+ * @LastEditTime : 2021-08-24 09:31:43
  * @FilePath     : /jira/src/unauthenticated-app/login.tsx
  * @Description  :
  */
@@ -16,7 +16,7 @@ const LoginScreen = ({ onError }: { onError: (error: Error) => void }) => {
   const { login } = useAuth();
 
   const { run, isLoading, error } = useAsync(undefined, {
-    throwOnError: false,
+    throwOnError: true,
   });
 
   const handleSubmit = async (values: {
@@ -25,7 +25,7 @@ const LoginScreen = ({ onError }: { onError: (error: Error) => void }) => {
   }) => {
     try {
       await run(login(values));
-      console.log("我会错误", error);
+      // console.log("我会错误", error);
     } catch (e) {
       onError(e);
     }
