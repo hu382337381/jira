@@ -1,13 +1,14 @@
-import { useEffect, useRef, useState } from "react";
-
 /*
  * @Author       : 胡昊
  * @Date         : 2021-08-11 14:44:32
  * @LastEditors  : 胡昊
- * @LastEditTime : 2021-08-24 14:43:17
+ * @LastEditTime : 2021-08-24 14:46:45
  * @FilePath     : /jira/src/utils/index.ts
  * @Description  :
  */
+
+import { useEffect, useRef, useState } from "react";
+
 export const isVoid = (value: any) => [null, undefined, ""].includes(value);
 
 export const cleanObject = (object: { [key: string]: unknown }) => {
@@ -55,7 +56,7 @@ export const useArray = <T>(param: T[]) => {
 };
 
 export const useDocumentTitle = (title: string, keepOnUnmount = true) => {
-  const oleTitle = document.title;
+  const oleTitle = useRef(document.title).current;
 
   useEffect(() => {
     document.title = title;
@@ -67,5 +68,5 @@ export const useDocumentTitle = (title: string, keepOnUnmount = true) => {
         document.title = oleTitle;
       }
     };
-  }, []);
+  }, [keepOnUnmount, oleTitle]);
 };
