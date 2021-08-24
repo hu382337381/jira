@@ -2,7 +2,7 @@
  * @Author       : 胡昊
  * @Date         : 2021-08-06 18:07:14
  * @LastEditors  : 胡昊
- * @LastEditTime : 2021-08-23 17:21:08
+ * @LastEditTime : 2021-08-24 14:29:56
  * @FilePath     : /jira/src/screens/project-list/index.tsx
  * @Description  :
  */
@@ -10,7 +10,7 @@ import styled from "@emotion/styled";
 import { Typography } from "antd";
 import { Row } from "components/lib";
 import { useState } from "react";
-import { useDebounce } from "utils";
+import { useDebounce, useDocumentTitle } from "utils";
 import { useProject } from "utils/project";
 import { useUser } from "utils/user";
 import List from "./list";
@@ -24,6 +24,8 @@ const ProjectListScreen = () => {
   const { data: list, isLoading, error } = useProject(debouncedParam);
 
   const { data: users } = useUser();
+
+  useDocumentTitle("项目列表", false);
 
   return (
     <Container>

@@ -1,23 +1,26 @@
-import { Button, Card, Typography } from "antd";
-import { useState } from "react";
-import LoginScreen from "./login";
-import RegisterScreen from "./register";
-import styled from "@emotion/styled";
-import left from "assets/left.svg";
-import right from "assets/right.svg";
-import logo from "assets/logo.svg";
-
 /*
  * @Author       : 胡昊
  * @Date         : 2021-08-13 14:33:06
  * @LastEditors  : 胡昊
- * @LastEditTime : 2021-08-24 11:09:17
+ * @LastEditTime : 2021-08-24 14:44:02
  * @FilePath     : /jira/src/unauthenticated-app/index.tsx
  * @Description  :
  */
+import styled from "@emotion/styled";
+import { Button, Card, Typography } from "antd";
+import left from "assets/left.svg";
+import logo from "assets/logo.svg";
+import right from "assets/right.svg";
+import { useState } from "react";
+import { useDocumentTitle } from "utils";
+import LoginScreen from "./login";
+import RegisterScreen from "./register";
+
 const UnauthenticatedApp = () => {
   const [isRegister, setIsRegister] = useState(false);
   const [error, setError] = useState<Error | null>(null);
+
+  useDocumentTitle("请登录注册以继续");
 
   return (
     <Container>

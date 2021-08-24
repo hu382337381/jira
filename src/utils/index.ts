@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 /*
  * @Author       : 胡昊
  * @Date         : 2021-08-11 14:44:32
  * @LastEditors  : 胡昊
- * @LastEditTime : 2021-08-24 10:24:34
+ * @LastEditTime : 2021-08-24 14:43:17
  * @FilePath     : /jira/src/utils/index.ts
  * @Description  :
  */
@@ -52,4 +52,20 @@ export const useArray = <T>(param: T[]) => {
   };
   const clear = () => setValue([]);
   return { value, setValue, add, removeIdex, clear };
+};
+
+export const useDocumentTitle = (title: string, keepOnUnmount = true) => {
+  const oleTitle = document.title;
+
+  useEffect(() => {
+    document.title = title;
+  }, [title]);
+
+  useEffect(() => {
+    return () => {
+      if (!keepOnUnmount) {
+        document.title = oleTitle;
+      }
+    };
+  }, []);
 };
