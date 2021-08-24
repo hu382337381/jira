@@ -2,13 +2,14 @@
  * @Author       : 胡昊
  * @Date         : 2021-08-09 09:10:54
  * @LastEditors  : 胡昊
- * @LastEditTime : 2021-08-23 16:59:50
+ * @LastEditTime : 2021-08-24 17:38:37
  * @FilePath     : /jira/src/screens/project-list/list.tsx
  * @Description  :
  */
 import { Table, TableProps } from "antd";
 import { User } from "./search-panel";
 import dayjs from "dayjs";
+import { Link } from "react-router-dom";
 
 export interface Project {
   id: number;
@@ -29,10 +30,18 @@ const List = ({ users, ...props }: ListProps) => {
       pagination={false}
       rowKey="id"
       columns={[
-        { title: "名称", dataIndex: "name" },
+        {
+          title: "名称",
+          dataIndex: "name",
+          sorter: (a, b) => a.name.localeCompare(b.name),
+          render: (value, project) => {
+            return <Link to={`${project.id}`}>{value}</Link>;
+          },
+        },
         { title: "部门", dataIndex: "organization" },
         {
           title: "负责人",
+          dataIndex: "personId",
           render(value, project) {
             return (
               <span>
@@ -44,13 +53,10 @@ const List = ({ users, ...props }: ListProps) => {
         },
         {
           title: "创建时间",
+          dataIndex: "created",
           render(value, project) {
             return (
-              <span>
-                {project.created
-                  ? dayjs(project.created).format("YYYY-MM-DD")
-                  : "无"}
-              </span>
+              <span>{value ? dayjs(value).format("YYYY-MM-DD") : "无"}</span>
             );
           },
         },

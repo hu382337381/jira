@@ -2,7 +2,7 @@
  * @Author       : 胡昊
  * @Date         : 2021-08-13 09:54:07
  * @LastEditors  : 胡昊
- * @LastEditTime : 2021-08-23 11:34:34
+ * @LastEditTime : 2021-08-24 17:10:41
  * @FilePath     : /jira/src/authenticated-app.tsx
  * @Description  :
  */
@@ -12,41 +12,54 @@ import { Button, Dropdown, Menu } from "antd";
 import { ReactComponent as SoftwarteLogo } from "assets/software-logo.svg";
 import { Row } from "components/lib";
 import { useAuth } from "context/auth-context";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import ProjectScreen from "screens/project";
 import ProjectListScreen from "screens/project-list";
 
 const AuthenticatedApp = () => {
-  const { logout, user } = useAuth();
   return (
     <Container>
-      <Header between>
-        <HeaderLeft gap>
-          <SoftwarteLogo width="18rem" color="rgb(38,132,255)" />
-          <h3>项目</h3>
-          <h3>用户</h3>
-        </HeaderLeft>
-        <HeaderRight>
-          <Dropdown
-            overlay={
-              <Menu>
-                <Menu.Item key="logout">
-                  <Button type="link" onClick={logout}>
-                    登出
-                  </Button>
-                </Menu.Item>
-              </Menu>
-            }
-          >
-            <Button
-              type="link"
-              // onClick={(e) => e?.preventDefault()}
-            >
-              Hi,{user?.name}
-            </Button>
-          </Dropdown>
-        </HeaderRight>
-      </Header>
-      <ProjectListScreen />
+      <PageHeader />
+      <Router>
+        <Routes>
+          <Route path="/projects" element={<ProjectListScreen />} />
+          <Route path="/projects/:projectId/*" element={<ProjectScreen />} />
+        </Routes>
+      </Router>
     </Container>
+  );
+};
+
+const PageHeader = () => {
+  const { logout, user } = useAuth();
+  return (
+    <Header between>
+      <HeaderLeft gap>
+        <SoftwarteLogo width="18rem" color="rgb(38,132,255)" />
+        <h3>项目</h3>
+        <h3>用户</h3>
+      </HeaderLeft>
+      <HeaderRight>
+        <Dropdown
+          overlay={
+            <Menu>
+              <Menu.Item key="logout">
+                <Button type="link" onClick={logout}>
+                  登出
+                </Button>
+              </Menu.Item>
+            </Menu>
+          }
+        >
+          <Button
+            type="link"
+            // onClick={(e) => e?.preventDefault()}
+          >
+            Hi,{user?.name}
+          </Button>
+        </Dropdown>
+      </HeaderRight>
+    </Header>
   );
 };
 
