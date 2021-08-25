@@ -2,7 +2,7 @@
  * @Author       : 胡昊
  * @Date         : 2021-08-13 09:54:07
  * @LastEditors  : 胡昊
- * @LastEditTime : 2021-08-24 18:02:46
+ * @LastEditTime : 2021-08-25 11:22:29
  * @FilePath     : /jira/src/authenticated-app.tsx
  * @Description  :
  */
@@ -20,6 +20,7 @@ import {
 } from "react-router-dom";
 import ProjectScreen from "screens/project";
 import ProjectListScreen from "screens/project-list";
+import { resetRoute } from "utils";
 
 const AuthenticatedApp = () => {
   return (
@@ -38,10 +39,13 @@ const AuthenticatedApp = () => {
 
 const PageHeader = () => {
   const { logout, user } = useAuth();
+
   return (
     <Header between>
       <HeaderLeft gap>
-        <SoftwarteLogo width="18rem" color="rgb(38,132,255)" />
+        <Button type="link" onClick={resetRoute}>
+          <SoftwarteLogo width="18rem" color="rgb(38,132,255)" />
+        </Button>
         <h3>项目</h3>
         <h3>用户</h3>
       </HeaderLeft>

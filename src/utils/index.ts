@@ -2,7 +2,7 @@
  * @Author       : 胡昊
  * @Date         : 2021-08-11 14:44:32
  * @LastEditors  : 胡昊
- * @LastEditTime : 2021-08-24 14:46:45
+ * @LastEditTime : 2021-08-25 11:09:37
  * @FilePath     : /jira/src/utils/index.ts
  * @Description  :
  */
@@ -69,4 +69,8 @@ export const useDocumentTitle = (title: string, keepOnUnmount = true) => {
       }
     };
   }, [keepOnUnmount, oleTitle]);
+};
+
+export const resetRoute = () => {
+  window.location.href = window.location.origin;
 };
