@@ -2,10 +2,11 @@
  * @Author       : 胡昊
  * @Date         : 2021-08-04 14:26:59
  * @LastEditors  : 胡昊
- * @LastEditTime : 2021-08-23 11:00:57
+ * @LastEditTime : 2021-08-25 14:18:47
  * @FilePath     : /jira/src/index.tsx
  * @Description  :
  */
+import "./wdyr";
 import React from "react";
 import ReactDOM from "react-dom";
 // import "./index.css";

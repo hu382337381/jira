@@ -2,7 +2,7 @@
  * @Author       : 胡昊
  * @Date         : 2021-08-09 09:13:30
  * @LastEditors  : 胡昊
- * @LastEditTime : 2021-08-23 11:54:04
+ * @LastEditTime : 2021-08-25 16:06:26
  * @FilePath     : /jira/src/screens/project-list/search-panel.tsx
  * @Description  :
  */
@@ -50,9 +50,9 @@ const SearchPanel = ({ users, param, setParam }: SearchPanelProps) => {
             })
           }
         >
-          <Select.Option value="">负责人</Select.Option>
+          <Select.Option value={""}>负责人</Select.Option>
           {users.map((item) => (
-            <Select.Option key={item.id} value={item.id}>
+            <Select.Option key={item.id} value={String(item.id)}>
               {item.name}
             </Select.Option>
           ))}

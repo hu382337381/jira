@@ -2,22 +2,22 @@
  * @Author       : 胡昊
  * @Date         : 2021-08-06 18:07:14
  * @LastEditors  : 胡昊
- * @LastEditTime : 2021-08-24 14:29:56
+ * @LastEditTime : 2021-08-25 18:01:43
  * @FilePath     : /jira/src/screens/project-list/index.tsx
  * @Description  :
  */
 import styled from "@emotion/styled";
 import { Typography } from "antd";
 import { Row } from "components/lib";
-import { useState } from "react";
 import { useDebounce, useDocumentTitle } from "utils";
 import { useProject } from "utils/project";
+import { useUrlQueryParam } from "utils/url";
 import { useUser } from "utils/user";
 import List from "./list";
 import SearchPanel from "./search-panel";
 
 const ProjectListScreen = () => {
-  const [param, setParam] = useState({ name: "", personId: "" });
+  const [param, setParam] = useUrlQueryParam(["name", "personId"]);
 
   const debouncedParam = useDebounce(param, 500);
 
@@ -40,6 +40,8 @@ const ProjectListScreen = () => {
     </Container>
   );
 };
+
+ProjectListScreen.whyDidYouRender = false;
 
 const Container = styled.div`
   padding: 3.2rem;

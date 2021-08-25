@@ -2,7 +2,7 @@
  * @Author       : 胡昊
  * @Date         : 2021-08-11 14:44:32
  * @LastEditors  : 胡昊
- * @LastEditTime : 2021-08-25 11:09:37
+ * @LastEditTime : 2021-08-25 17:53:28
  * @FilePath     : /jira/src/utils/index.ts
  * @Description  :
  */
@@ -73,4 +73,17 @@ export const useDocumentTitle = (title: string, keepOnUnmount = true) => {
 
 export const resetRoute = () => {
   window.location.href = window.location.origin;
+};
+
+export const subset = <
+  O extends { [key in string]: unknown },
+  K extends keyof O
+>(
+  obj: O,
+  keys: K[]
+) => {
+  const filteredEntries = Object.entries(obj).filter(([key]) =>
+    keys.includes(key as K)
+  );
+  return Object.fromEntries(filteredEntries) as Pick<O, K>;
 };
