@@ -2,7 +2,7 @@
  * @Author       : 胡昊
  * @Date         : 2021-08-13 09:54:07
  * @LastEditors  : 胡昊
- * @LastEditTime : 2021-08-24 17:10:41
+ * @LastEditTime : 2021-08-24 18:02:46
  * @FilePath     : /jira/src/authenticated-app.tsx
  * @Description  :
  */
@@ -12,7 +12,12 @@ import { Button, Dropdown, Menu } from "antd";
 import { ReactComponent as SoftwarteLogo } from "assets/software-logo.svg";
 import { Row } from "components/lib";
 import { useAuth } from "context/auth-context";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Navigate,
+  Route,
+  Routes,
+} from "react-router-dom";
 import ProjectScreen from "screens/project";
 import ProjectListScreen from "screens/project-list";
 
@@ -24,6 +29,7 @@ const AuthenticatedApp = () => {
         <Routes>
           <Route path="/projects" element={<ProjectListScreen />} />
           <Route path="/projects/:projectId/*" element={<ProjectScreen />} />
+          <Navigate to="/projects" />
         </Routes>
       </Router>
     </Container>
