@@ -2,7 +2,7 @@
  * @Author       : 胡昊
  * @Date         : 2021-08-06 18:07:14
  * @LastEditors  : 胡昊
- * @LastEditTime : 2021-08-25 18:01:43
+ * @LastEditTime : 2021-08-26 18:06:35
  * @FilePath     : /jira/src/screens/project-list/index.tsx
  * @Description  :
  */
@@ -11,17 +11,15 @@ import { Typography } from "antd";
 import { Row } from "components/lib";
 import { useDebounce, useDocumentTitle } from "utils";
 import { useProject } from "utils/project";
-import { useUrlQueryParam } from "utils/url";
 import { useUser } from "utils/user";
 import List from "./list";
 import SearchPanel from "./search-panel";
+import { useProjectsSearchParams } from "./util";
 
 const ProjectListScreen = () => {
-  const [param, setParam] = useUrlQueryParam(["name", "personId"]);
+  const [param, setParam] = useProjectsSearchParams();
 
-  const debouncedParam = useDebounce(param, 500);
-
-  const { data: list, isLoading, error } = useProject(debouncedParam);
+  const { data: list, isLoading, error } = useProject(useDebounce(param, 200));
 
   const { data: users } = useUser();
 

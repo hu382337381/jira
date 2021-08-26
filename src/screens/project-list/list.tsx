@@ -2,7 +2,7 @@
  * @Author       : 胡昊
  * @Date         : 2021-08-09 09:10:54
  * @LastEditors  : 胡昊
- * @LastEditTime : 2021-08-24 17:38:37
+ * @LastEditTime : 2021-08-26 17:11:53
  * @FilePath     : /jira/src/screens/project-list/list.tsx
  * @Description  :
  */
@@ -14,7 +14,7 @@ import { Link } from "react-router-dom";
 export interface Project {
   id: number;
   name: string;
-  personId: string;
+  personId: number;
   pin: boolean;
   organization: string;
   created: number;

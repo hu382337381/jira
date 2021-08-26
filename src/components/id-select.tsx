@@ -2,7 +2,7 @@
  * @Author       : 胡昊
  * @Date         : 2021-08-26 16:37:51
  * @LastEditors  : 胡昊
- * @LastEditTime : 2021-08-26 17:06:41
+ * @LastEditTime : 2021-08-26 18:04:03
  * @FilePath     : /jira/src/components/id-select.tsx
  * @Description  :
  */
@@ -26,8 +26,8 @@ const IdSelect = (props: IdSelectProps) => {
 
   return (
     <Select
-      value={toNumber(value)}
-      onChange={(value) => onChange(toNumber(value))}
+      value={options?.length ? toNumber(value) : 0}
+      onChange={(value) => onChange(toNumber(value) || undefined)}
       {...restProps}
     >
       {defaultOptionName ? (
