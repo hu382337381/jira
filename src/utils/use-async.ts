@@ -2,11 +2,12 @@
  * @Author       : 胡昊
  * @Date         : 2021-08-23 16:00:17
  * @LastEditors  : 胡昊
- * @LastEditTime : 2021-08-27 14:56:26
+ * @LastEditTime : 2021-08-27 15:42:59
  * @FilePath     : /jira/src/utils/use-async.ts
  * @Description  :
  */
 import { useCallback, useState } from "react";
+import { useMountedRef } from "utils";
 
 interface State<D> {
   error: Error | null;
@@ -34,6 +35,8 @@ export const useAsync = <D>(
     ...defaultInitState,
     ...initState,
   });
+
+  const mountedRef = useMountedRef();
   // useState直接传入函数的含义是：惰性初始化；所以，要用useState保存函数，不能直接传入函数
   // https://codesandbox.io/s/blissful-water-230u4?file=/src/App.js
   const [retry, setRetry] = useState(() => () => {});
@@ -69,17 +72,18 @@ export const useAsync = <D>(
 
       return promise
         .then((data) => {
-          setData(data);
+          if (mountedRef.current) setData(data);
           return data;
         })
         .catch((error) => {
           //catch 会消化异常，如果不主动抛出，外面试接收不到异常的
+          // if (mounted)
           setError(error);
           if (config.throwOnError) return Promise.reject(error);
           return error;
         });
     },
-    [config.throwOnError, setData, setError]
+    [config.throwOnError, mountedRef, setData, setError]
   );
 
   return {

@@ -2,7 +2,7 @@
  * @Author       : 胡昊
  * @Date         : 2021-08-11 14:44:32
  * @LastEditors  : 胡昊
- * @LastEditTime : 2021-08-25 17:53:28
+ * @LastEditTime : 2021-08-27 15:42:23
  * @FilePath     : /jira/src/utils/index.ts
  * @Description  :
  */
@@ -86,4 +86,17 @@ export const subset = <
     keys.includes(key as K)
   );
   return Object.fromEntries(filteredEntries) as Pick<O, K>;
+};
+
+export const useMountedRef = () => {
+  const mountedRef = useRef(false);
+
+  useEffect(() => {
+    mountedRef.current = true;
+    return () => {
+      mountedRef.current = false;
+    };
+  });
+
+  return mountedRef;
 };
