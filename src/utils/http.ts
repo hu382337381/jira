@@ -3,12 +3,13 @@ import { useAuth } from "context/auth-context";
  * @Author       : 胡昊
  * @Date         : 2021-08-13 15:51:26
  * @LastEditors  : 胡昊
- * @LastEditTime : 2021-08-13 17:41:05
+ * @LastEditTime : 2021-08-27 14:57:18
  * @FilePath     : /jira/src/utils/http.ts
  * @Description  : 请求相关
  */
 import qs from "qs";
 import * as auth from "auth-provider";
+import { useCallback } from "react";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -55,6 +56,9 @@ export const http = (
 export const useHttp = () => {
   const { user } = useAuth();
 
-  return (...[endpoint, config]: Parameters<typeof http>) =>
-    http(endpoint, { ...config, token: user?.token });
+  return useCallback(
+    (...[endpoint, config]: Parameters<typeof http>) =>
+      http(endpoint, { ...config, token: user?.token }),
+    [user?.token]
+  );
 };
