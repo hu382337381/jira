@@ -2,7 +2,7 @@
  * @Author       : 胡昊
  * @Date         : 2021-08-23 16:00:17
  * @LastEditors  : 胡昊
- * @LastEditTime : 2021-08-23 17:30:48
+ * @LastEditTime : 2021-08-27 10:02:04
  * @FilePath     : /jira/src/utils/use-async.ts
  * @Description  :
  */
@@ -34,6 +34,9 @@ export const useAsync = <D>(
     ...defaultInitState,
     ...initState,
   });
+  // useState直接传入函数的含义是：惰性初始化；所以，要用useState保存函数，不能直接传入函数
+  // https://codesandbox.io/s/blissful-water-230u4?file=/src/App.js
+  const [retry, setRetry] = useState(() => () => {});
 
   const setData = (data: D) => {
     setState({
@@ -51,11 +54,20 @@ export const useAsync = <D>(
     });
   };
 
-  const run = (promise: Promise<D>) => {
+  const run = (
+    promise: Promise<D>,
+    runConfig?: { retry: () => Promise<D> }
+  ) => {
     if (!promise || !promise.then) {
       throw new Error("请传入 Promise 类型数据");
     }
     setState({ ...state, status: "loading" });
+
+    setRetry(() => () => {
+      if (runConfig?.retry) {
+        run(runConfig?.retry(), runConfig);
+      }
+    });
 
     return promise
       .then((data) => {
@@ -78,6 +90,8 @@ export const useAsync = <D>(
     run,
     setData,
     setError,
+    //retry被调用时重写跑一遍run，让state刷新一遍
+    retry,
     ...state,
   };
 };

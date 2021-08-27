@@ -2,7 +2,7 @@
  * @Author       : 胡昊
  * @Date         : 2021-08-06 18:07:14
  * @LastEditors  : 胡昊
- * @LastEditTime : 2021-08-26 18:06:35
+ * @LastEditTime : 2021-08-27 11:25:25
  * @FilePath     : /jira/src/screens/project-list/index.tsx
  * @Description  :
  */
@@ -19,7 +19,12 @@ import { useProjectsSearchParams } from "./util";
 const ProjectListScreen = () => {
   const [param, setParam] = useProjectsSearchParams();
 
-  const { data: list, isLoading, error } = useProject(useDebounce(param, 200));
+  const {
+    data: list,
+    isLoading,
+    error,
+    retry,
+  } = useProject(useDebounce(param, 200));
 
   const { data: users } = useUser();
 
@@ -34,7 +39,12 @@ const ProjectListScreen = () => {
       {error ? (
         <Typography.Text type="danger">{error.message}</Typography.Text>
       ) : null}
-      <List loading={isLoading} users={users || []} dataSource={list || []} />
+      <List
+        refresh={retry}
+        loading={isLoading}
+        users={users || []}
+        dataSource={list || []}
+      />
     </Container>
   );
 };
