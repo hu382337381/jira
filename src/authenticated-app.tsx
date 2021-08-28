@@ -2,7 +2,7 @@
  * @Author       : 胡昊
  * @Date         : 2021-08-13 09:54:07
  * @LastEditors  : 胡昊
- * @LastEditTime : 2021-08-28 15:04:17
+ * @LastEditTime : 2021-08-28 15:27:45
  * @FilePath     : /jira/src/authenticated-app.tsx
  * @Description  :
  */
@@ -13,7 +13,7 @@ import { ReactComponent as SoftwarteLogo } from "assets/software-logo.svg";
 import { ButtonNoPadding, Row } from "components/lib";
 import ProjectPopover from "components/project-popover";
 import { useAuth } from "context/auth-context";
-import { useState } from "react";
+import { ReactElement, useState } from "react";
 import {
   BrowserRouter as Router,
   Navigate,
@@ -30,13 +30,35 @@ const AuthenticatedApp = () => {
 
   return (
     <Container>
-      <PageHeader setProjectModalOpen={setProjectModalOpen} />
+      <PageHeader
+        projectButton={
+          <ButtonNoPadding
+            onClick={() => {
+              setProjectModalOpen(true);
+            }}
+            type="link"
+          >
+            创建项目
+          </ButtonNoPadding>
+        }
+      />
       <Router>
         <Routes>
           <Route
             path="/projects"
             element={
-              <ProjectListScreen setProjectModalOpen={setProjectModalOpen} />
+              <ProjectListScreen
+                projectButton={
+                  <ButtonNoPadding
+                    onClick={() => {
+                      setProjectModalOpen(true);
+                    }}
+                    type="link"
+                  >
+                    创建项目
+                  </ButtonNoPadding>
+                }
+              />
             }
           />
           <Route path="/projects/:projectId/*" element={<ProjectScreen />} />
@@ -53,16 +75,14 @@ const AuthenticatedApp = () => {
   );
 };
 
-const PageHeader = (props: {
-  setProjectModalOpen: (isOpen: boolean) => void;
-}) => {
+const PageHeader = (props: { projectButton: ReactElement }) => {
   return (
     <Header between>
       <HeaderLeft gap>
         <ButtonNoPadding type="link" onClick={resetRoute}>
           <SoftwarteLogo width="18rem" color="rgb(38,132,255)" />
         </ButtonNoPadding>
-        <ProjectPopover setProjectModalOpen={props.setProjectModalOpen} />
+        <ProjectPopover {...props} />
         <span>用户</span>
       </HeaderLeft>
       <HeaderRight>

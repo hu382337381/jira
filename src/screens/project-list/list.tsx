@@ -2,7 +2,7 @@
  * @Author       : 胡昊
  * @Date         : 2021-08-09 09:10:54
  * @LastEditors  : 胡昊
- * @LastEditTime : 2021-08-28 15:14:20
+ * @LastEditTime : 2021-08-28 15:27:38
  * @FilePath     : /jira/src/screens/project-list/list.tsx
  * @Description  :
  */
@@ -13,6 +13,7 @@ import { Link } from "react-router-dom";
 import { Pin } from "components/pin";
 import { useEditProject } from "utils/project";
 import { ButtonNoPadding } from "components/lib";
+import { ReactElement } from "react";
 
 export interface Project {
   id: number;
@@ -26,7 +27,7 @@ export interface Project {
 interface ListProps extends TableProps<Project> {
   users: User[];
   refresh?: () => void;
-  setProjectModalOpen: (isOpen: boolean) => void;
+  projectButton: ReactElement;
 }
 
 const List = ({ users, ...props }: ListProps) => {
@@ -86,16 +87,7 @@ const List = ({ users, ...props }: ListProps) => {
               <Dropdown
                 overlay={
                   <Menu>
-                    <Menu.Item key="edit">
-                      <ButtonNoPadding
-                        type="link"
-                        onClick={() => {
-                          props.setProjectModalOpen(true);
-                        }}
-                      >
-                        编辑
-                      </ButtonNoPadding>
-                    </Menu.Item>
+                    <Menu.Item key="edit">{props.projectButton}</Menu.Item>
                   </Menu>
                 }
               >

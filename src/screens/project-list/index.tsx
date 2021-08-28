@@ -2,13 +2,14 @@
  * @Author       : 胡昊
  * @Date         : 2021-08-06 18:07:14
  * @LastEditors  : 胡昊
- * @LastEditTime : 2021-08-28 15:05:56
+ * @LastEditTime : 2021-08-28 15:27:43
  * @FilePath     : /jira/src/screens/project-list/index.tsx
  * @Description  :
  */
 import styled from "@emotion/styled";
 import { Button, Typography } from "antd";
 import { Row } from "components/lib";
+import { ReactElement } from "react";
 import { useDebounce, useDocumentTitle } from "utils";
 import { useProject } from "utils/project";
 import { useUser } from "utils/user";
@@ -16,9 +17,7 @@ import List from "./list";
 import SearchPanel from "./search-panel";
 import { useProjectsSearchParams } from "./util";
 
-const ProjectListScreen = (props: {
-  setProjectModalOpen: (isOpen: boolean) => void;
-}) => {
+const ProjectListScreen = (props: { projectButton: ReactElement }) => {
   const [param, setParam] = useProjectsSearchParams();
 
   const {
@@ -36,13 +35,7 @@ const ProjectListScreen = (props: {
     <Container>
       <Row marginBottom={2} between>
         <h1>项目列表</h1>
-        <Button
-          onClick={() => {
-            props.setProjectModalOpen(true);
-          }}
-        >
-          创建项目
-        </Button>
+        {props.projectButton}
       </Row>
       <SearchPanel users={users || []} param={param} setParam={setParam} />
       {error ? (
@@ -53,7 +46,7 @@ const ProjectListScreen = (props: {
         loading={isLoading}
         users={users || []}
         dataSource={list || []}
-        setProjectModalOpen={props.setProjectModalOpen}
+        projectButton={props.projectButton}
       />
     </Container>
   );
