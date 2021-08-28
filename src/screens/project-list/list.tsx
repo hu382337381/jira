@@ -2,16 +2,17 @@
  * @Author       : 胡昊
  * @Date         : 2021-08-09 09:10:54
  * @LastEditors  : 胡昊
- * @LastEditTime : 2021-08-27 11:25:00
+ * @LastEditTime : 2021-08-28 15:14:20
  * @FilePath     : /jira/src/screens/project-list/list.tsx
  * @Description  :
  */
-import { Table, TableProps } from "antd";
+import { Button, Dropdown, Menu, Table, TableProps, Typography } from "antd";
 import { User } from "./search-panel";
 import dayjs from "dayjs";
 import { Link } from "react-router-dom";
 import { Pin } from "components/pin";
 import { useEditProject } from "utils/project";
+import { ButtonNoPadding } from "components/lib";
 
 export interface Project {
   id: number;
@@ -25,6 +26,7 @@ export interface Project {
 interface ListProps extends TableProps<Project> {
   users: User[];
   refresh?: () => void;
+  setProjectModalOpen: (isOpen: boolean) => void;
 }
 
 const List = ({ users, ...props }: ListProps) => {
@@ -74,6 +76,31 @@ const List = ({ users, ...props }: ListProps) => {
           render(value, project) {
             return (
               <span>{value ? dayjs(value).format("YYYY-MM-DD") : "无"}</span>
+            );
+          },
+        },
+        {
+          title: "操作",
+          render: (value, project) => {
+            return (
+              <Dropdown
+                overlay={
+                  <Menu>
+                    <Menu.Item key="edit">
+                      <ButtonNoPadding
+                        type="link"
+                        onClick={() => {
+                          props.setProjectModalOpen(true);
+                        }}
+                      >
+                        编辑
+                      </ButtonNoPadding>
+                    </Menu.Item>
+                  </Menu>
+                }
+              >
+                <Typography.Text>...</Typography.Text>
+              </Dropdown>
             );
           },
         },

@@ -2,13 +2,13 @@
  * @Author       : 胡昊
  * @Date         : 2021-08-20 11:49:51
  * @LastEditors  : 胡昊
- * @LastEditTime : 2021-08-24 09:11:50
+ * @LastEditTime : 2021-08-28 14:33:32
  * @FilePath     : /jira/src/components/lib.tsx
  * @Description  :
  */
 
 import styled from "@emotion/styled";
-import { Spin, Typography } from "antd";
+import { Button, Spin, Typography } from "antd";
 import { DevTools } from "jira-dev-tool";
 
 export const Row = styled.div<{
@@ -53,3 +53,7 @@ export const FullPageError = ({ error }: { error: Error | null }) => (
     <Typography.Text type="danger">{error?.message}</Typography.Text>
   </FullPage>
 );
+
+export const ButtonNoPadding = styled(Button)`
+  padding: 0;
+`;

@@ -2,7 +2,7 @@
  * @Author       : 胡昊
  * @Date         : 2021-08-13 09:54:07
  * @LastEditors  : 胡昊
- * @LastEditTime : 2021-08-25 11:22:29
+ * @LastEditTime : 2021-08-28 15:04:17
  * @FilePath     : /jira/src/authenticated-app.tsx
  * @Description  :
  */
@@ -10,8 +10,10 @@
 import styled from "@emotion/styled";
 import { Button, Dropdown, Menu } from "antd";
 import { ReactComponent as SoftwarteLogo } from "assets/software-logo.svg";
-import { Row } from "components/lib";
+import { ButtonNoPadding, Row } from "components/lib";
+import ProjectPopover from "components/project-popover";
 import { useAuth } from "context/auth-context";
+import { useState } from "react";
 import {
   BrowserRouter as Router,
   Navigate,
@@ -20,56 +22,77 @@ import {
 } from "react-router-dom";
 import ProjectScreen from "screens/project";
 import ProjectListScreen from "screens/project-list";
+import ProjectModal from "screens/project-list/project-modal";
 import { resetRoute } from "utils";
 
 const AuthenticatedApp = () => {
+  const [projectModalOpen, setProjectModalOpen] = useState(false);
+
   return (
     <Container>
-      <PageHeader />
+      <PageHeader setProjectModalOpen={setProjectModalOpen} />
       <Router>
         <Routes>
-          <Route path="/projects" element={<ProjectListScreen />} />
+          <Route
+            path="/projects"
+            element={
+              <ProjectListScreen setProjectModalOpen={setProjectModalOpen} />
+            }
+          />
           <Route path="/projects/:projectId/*" element={<ProjectScreen />} />
           <Navigate to="/projects" />
         </Routes>
       </Router>
+      <ProjectModal
+        projectModalOpen={projectModalOpen}
+        onClose={() => {
+          setProjectModalOpen(false);
+        }}
+      />
     </Container>
   );
 };
 
-const PageHeader = () => {
-  const { logout, user } = useAuth();
-
+const PageHeader = (props: {
+  setProjectModalOpen: (isOpen: boolean) => void;
+}) => {
   return (
     <Header between>
       <HeaderLeft gap>
-        <Button type="link" onClick={resetRoute}>
+        <ButtonNoPadding type="link" onClick={resetRoute}>
           <SoftwarteLogo width="18rem" color="rgb(38,132,255)" />
-        </Button>
-        <h3>项目</h3>
-        <h3>用户</h3>
+        </ButtonNoPadding>
+        <ProjectPopover setProjectModalOpen={props.setProjectModalOpen} />
+        <span>用户</span>
       </HeaderLeft>
       <HeaderRight>
-        <Dropdown
-          overlay={
-            <Menu>
-              <Menu.Item key="logout">
-                <Button type="link" onClick={logout}>
-                  登出
-                </Button>
-              </Menu.Item>
-            </Menu>
-          }
-        >
-          <Button
-            type="link"
-            // onClick={(e) => e?.preventDefault()}
-          >
-            Hi,{user?.name}
-          </Button>
-        </Dropdown>
+        <User />
       </HeaderRight>
     </Header>
+  );
+};
+
+const User = () => {
+  const { logout, user } = useAuth();
+  return (
+    <Dropdown
+      overlay={
+        <Menu>
+          <Menu.Item key="logout">
+            <Button type="link" onClick={logout}>
+              登出
+            </Button>
+          </Menu.Item>
+        </Menu>
+      }
+    >
+      <Button
+        type="link"
+        // onClick={(e) => e?.preventDefault()}
+      >
+        Hi,{user?.name}
+      </Button>
+    </Dropdown>
   );
 };
 

@@ -2,12 +2,12 @@
  * @Author       : 胡昊
  * @Date         : 2021-08-06 18:07:14
  * @LastEditors  : 胡昊
- * @LastEditTime : 2021-08-27 11:25:25
+ * @LastEditTime : 2021-08-28 15:05:56
  * @FilePath     : /jira/src/screens/project-list/index.tsx
  * @Description  :
  */
 import styled from "@emotion/styled";
-import { Typography } from "antd";
+import { Button, Typography } from "antd";
 import { Row } from "components/lib";
 import { useDebounce, useDocumentTitle } from "utils";
 import { useProject } from "utils/project";
@@ -16,7 +16,9 @@ import List from "./list";
 import SearchPanel from "./search-panel";
 import { useProjectsSearchParams } from "./util";
 
-const ProjectListScreen = () => {
+const ProjectListScreen = (props: {
+  setProjectModalOpen: (isOpen: boolean) => void;
+}) => {
   const [param, setParam] = useProjectsSearchParams();
 
   const {
@@ -32,8 +34,15 @@ const ProjectListScreen = () => {
 
   return (
     <Container>
-      <Row marginBottom={2}>
+      <Row marginBottom={2} between>
         <h1>项目列表</h1>
+        <Button
+          onClick={() => {
+            props.setProjectModalOpen(true);
+          }}
+        >
+          创建项目
+        </Button>
       </Row>
       <SearchPanel users={users || []} param={param} setParam={setParam} />
       {error ? (
@@ -44,6 +53,7 @@ const ProjectListScreen = () => {
         loading={isLoading}
         users={users || []}
         dataSource={list || []}
+        setProjectModalOpen={props.setProjectModalOpen}
       />
     </Container>
   );
