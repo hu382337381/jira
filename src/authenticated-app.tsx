@@ -2,7 +2,7 @@
  * @Author       : 胡昊
  * @Date         : 2021-08-13 09:54:07
  * @LastEditors  : 胡昊
- * @LastEditTime : 2021-08-28 15:27:45
+ * @LastEditTime : 2021-08-31 17:34:10
  * @FilePath     : /jira/src/authenticated-app.tsx
  * @Description  :
  */
@@ -26,63 +26,29 @@ import ProjectModal from "screens/project-list/project-modal";
 import { resetRoute } from "utils";
 
 const AuthenticatedApp = () => {
-  const [projectModalOpen, setProjectModalOpen] = useState(false);
-
   return (
     <Container>
-      <PageHeader
-        projectButton={
-          <ButtonNoPadding
-            onClick={() => {
-              setProjectModalOpen(true);
-            }}
-            type="link"
-          >
-            创建项目
-          </ButtonNoPadding>
-        }
-      />
+      <PageHeader />
       <Router>
         <Routes>
-          <Route
-            path="/projects"
-            element={
-              <ProjectListScreen
-                projectButton={
-                  <ButtonNoPadding
-                    onClick={() => {
-                      setProjectModalOpen(true);
-                    }}
-                    type="link"
-                  >
-                    创建项目
-                  </ButtonNoPadding>
-                }
-              />
-            }
-          />
+          <Route path="/projects" element={<ProjectListScreen />} />
           <Route path="/projects/:projectId/*" element={<ProjectScreen />} />
           <Navigate to="/projects" />
         </Routes>
       </Router>
-      <ProjectModal
-        projectModalOpen={projectModalOpen}
-        onClose={() => {
-          setProjectModalOpen(false);
-        }}
-      />
+      <ProjectModal />
     </Container>
   );
 };
 
-const PageHeader = (props: { projectButton: ReactElement }) => {
+const PageHeader = () => {
   return (
     <Header between>
       <HeaderLeft gap>
         <ButtonNoPadding type="link" onClick={resetRoute}>
           <SoftwarteLogo width="18rem" color="rgb(38,132,255)" />
         </ButtonNoPadding>
-        <ProjectPopover {...props} />
+        <ProjectPopover />
         <span>用户</span>
       </HeaderLeft>
       <HeaderRight>

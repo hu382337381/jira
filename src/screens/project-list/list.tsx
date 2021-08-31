@@ -2,7 +2,7 @@
  * @Author       : 胡昊
  * @Date         : 2021-08-09 09:10:54
  * @LastEditors  : 胡昊
- * @LastEditTime : 2021-08-28 15:27:38
+ * @LastEditTime : 2021-08-31 17:38:51
  * @FilePath     : /jira/src/screens/project-list/list.tsx
  * @Description  :
  */
@@ -14,6 +14,8 @@ import { Pin } from "components/pin";
 import { useEditProject } from "utils/project";
 import { ButtonNoPadding } from "components/lib";
 import { ReactElement } from "react";
+import { useDispatch } from "react-redux";
+import { openProjectModal } from "./project-list.slice";
 
 export interface Project {
   id: number;
@@ -27,10 +29,10 @@ export interface Project {
 interface ListProps extends TableProps<Project> {
   users: User[];
   refresh?: () => void;
-  projectButton: ReactElement;
 }
 
 const List = ({ users, ...props }: ListProps) => {
+  const dispatch = useDispatch();
   const { mutate } = useEditProject();
   const pinProject = (id: number) => (pin: boolean) =>
     mutate({ id, pin }).then(props.refresh);
@@ -87,7 +89,14 @@ const List = ({ users, ...props }: ListProps) => {
               <Dropdown
                 overlay={
                   <Menu>
-                    <Menu.Item key="edit">{props.projectButton}</Menu.Item>
+                    <Menu.Item key="edit">
+                      <ButtonNoPadding
+                        type="link"
+                        onClick={() => dispatch(openProjectModal())}
+                      >
+                        创建项目
+                      </ButtonNoPadding>
+                    </Menu.Item>
                   </Menu>
                 }
               >

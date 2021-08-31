@@ -2,19 +2,23 @@
  * @Author       : 胡昊
  * @Date         : 2021-08-28 14:34:14
  * @LastEditors  : 胡昊
- * @LastEditTime : 2021-08-28 15:24:51
+ * @LastEditTime : 2021-08-31 17:40:24
  * @FilePath     : /jira/src/components/project-popover.tsx
  * @Description  :
  */
 
 import styled from "@emotion/styled";
 import { Divider, List, Popover, Typography } from "antd";
-import { ReactElement } from "react";
+import { useDispatch } from "react-redux";
+import { openProjectModal } from "screens/project-list/project-list.slice";
 import { useProject } from "utils/project";
+import { ButtonNoPadding } from "./lib";
 
-const ProjectPopover = (props: { projectButton: ReactElement }) => {
+const ProjectPopover = () => {
   const { data: projects } = useProject();
   const pinnedProjects = projects?.filter((project) => project.pin);
+
+  const dispatch = useDispatch();
 
   const content = (
     <ContentContainer>
@@ -27,7 +31,9 @@ const ProjectPopover = (props: { projectButton: ReactElement }) => {
         ))}
       </List>
       <Divider />
-      {props.projectButton}
+      <ButtonNoPadding type="link" onClick={() => dispatch(openProjectModal())}>
+        创建项目
+      </ButtonNoPadding>
     </ContentContainer>
   );
 
