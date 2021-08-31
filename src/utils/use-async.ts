@@ -2,11 +2,11 @@
  * @Author       : 胡昊
  * @Date         : 2021-08-23 16:00:17
  * @LastEditors  : 胡昊
- * @LastEditTime : 2021-08-27 15:42:59
+ * @LastEditTime : 2021-08-31 14:22:06
  * @FilePath     : /jira/src/utils/use-async.ts
  * @Description  :
  */
-import { useCallback, useState } from "react";
+import { Dispatch, useCallback, useReducer, useState } from "react";
 import { useMountedRef } from "utils";
 
 interface State<D> {
@@ -25,44 +25,66 @@ const defaultConfig = {
   throwOnError: false,
 };
 
+const reducer = <D>(state: State<D>, action: Partial<State<D>>) => ({
+  ...state,
+  ...action,
+});
+
+const useSafeDispatch = <T>(dispatch: (args: T) => void) => {
+  const mountedRef = useMountedRef();
+
+  return useCallback(
+    (args) => {
+      mountedRef.current ? dispatch(args) : void 0;
+    },
+    [dispatch, mountedRef]
+  );
+};
+
 export const useAsync = <D>(
   initState?: State<D>,
   initConfig?: typeof defaultConfig
 ) => {
   const config = { ...defaultConfig, ...initConfig };
 
-  const [state, setState] = useState({
+  const [state, dispatch] = useReducer(reducer, {
     ...defaultInitState,
     ...initState,
-  });
+  }) as [State<D>, Dispatch<Partial<State<D>>>];
 
-  const mountedRef = useMountedRef();
+  const safeDispatch = useSafeDispatch(dispatch);
   // useState直接传入函数的含义是：惰性初始化；所以，要用useState保存函数，不能直接传入函数
   // https://codesandbox.io/s/blissful-water-230u4?file=/src/App.js
   const [retry, setRetry] = useState(() => () => {});
 
-  const setData = useCallback((data: D) => {
-    setState({
-      data,
-      error: null,
-      status: "success",
-    });
-  }, []);
+  const setData = useCallback(
+    (data: D) => {
+      safeDispatch({
+        data,
+        error: null,
+        status: "success",
+      });
+    },
+    [safeDispatch]
+  );
 
-  const setError = useCallback((error: Error) => {
-    setState({
-      data: null,
-      error,
-      status: "error",
-    });
-  }, []);
+  const setError = useCallback(
+    (error: Error) => {
+      safeDispatch({
+        data: null,
+        error,
+        status: "error",
+      });
+    },
+    [safeDispatch]
+  );
 
   const run = useCallback(
     (promise: Promise<D>, runConfig?: { retry: () => Promise<D> }) => {
       if (!promise || !promise.then) {
         throw new Error("请传入 Promise 类型数据");
       }
-      setState((prevState) => ({ ...prevState, status: "loading" }));
+      safeDispatch({ status: "loading" });
 
       setRetry(() => () => {
         if (runConfig?.retry) {
@@ -72,18 +94,17 @@ export const useAsync = <D>(
 
       return promise
         .then((data) => {
-          if (mountedRef.current) setData(data);
+          setData(data);
           return data;
         })
         .catch((error) => {
           //catch 会消化异常，如果不主动抛出，外面试接收不到异常的
-          // if (mounted)
           setError(error);
           if (config.throwOnError) return Promise.reject(error);
           return error;
         });
     },
-    [config.throwOnError, mountedRef, setData, setError]
+    [config.throwOnError, safeDispatch, setData, setError]
   );
 
   return {

@@ -2,7 +2,7 @@
  * @Author       : 胡昊
  * @Date         : 2021-08-28 15:30:11
  * @LastEditors  : 胡昊
- * @LastEditTime : 2021-08-30 10:51:53
+ * @LastEditTime : 2021-08-31 14:31:23
  * @FilePath     : /jira/src/utils/use-undo.ts
  * @Description  :
  */
@@ -36,7 +36,7 @@ const reducer = <T>(state: State<T>, action: Action<T>) => {
       return {
         past: past.slice(0, -1),
         present: past[past.length - 1],
-        future: [present, future],
+        future: [present, ...future],
       };
 
     case ActionType.REDO:
@@ -60,18 +60,17 @@ const reducer = <T>(state: State<T>, action: Action<T>) => {
         present: newPresent,
         future: [],
       };
-    default:
-      break;
   }
   return state;
 };
 
 export const useUndo = <T>(initValue: T) => {
+  //若reducer写在外部，最后必须给useReducer指定返回的元组类型，否则state中的data为unknown类型
   const [state, dispatch] = useReducer(reducer, {
     past: [],
     present: initValue,
     future: [],
-  });
+  }) as [State<T>, React.Dispatch<Action<T>>];
 
   const canUndo = state.past.length > 0;
   const canRedo = state.future.length > 0;
@@ -84,13 +83,13 @@ export const useUndo = <T>(initValue: T) => {
     dispatch({ type: ActionType.REDO });
   }, []);
 
-  const set = useCallback((newVal: T) => {
-    dispatch({ type: ActionType.SET });
+  const set = useCallback((newPresent: T) => {
+    dispatch({ type: ActionType.SET, newPresent });
   }, []);
 
-  const reset = useCallback((newVal: T) => {
-    dispatch({ type: ActionType.RESET });
+  const reset = useCallback((newPresent: T) => {
+    dispatch({ type: ActionType.RESET, newPresent });
   }, []);
 
-  return [state, { set, reset, undo, redo, canRedo, canUndo }];
+  return [state, { set, reset, undo, redo, canRedo, canUndo }] as const;
 };
